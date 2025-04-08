@@ -11,11 +11,9 @@ from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 from src.components.model_trainer import ModelTrainerConfig
 from src.components.model_trainer import ModelTrainer
-import requests
-import ta
-from dotenv import load_dotenv
-load_dotenv()
-api_key = os.getenv("ALPHAVANTAGE_API_KEY")
+
+
+
 
 @dataclass
 class DataIngestionConfig:
@@ -60,8 +58,6 @@ class DataIngestion:
 
             for col in ['open', 'high', 'low', 'close', 'volume']:
                 df[col] = df[col].astype(float)
-            
-            df = self.add_ma_rsi_macd(df)
 
             os.makedirs(os.path.dirname(self.ingestion_config.raw_data_path), exist_ok=True)
             df.to_csv(self.ingestion_config.raw_data_path, index=True)
@@ -71,48 +67,15 @@ class DataIngestion:
         except Exception as e:
             raise CustomException(e, sys)
 
-    def add_ma_rsi_macd(self, df):
-        
-
-        # Reverse DataFrame to have oldest data first (required for indicators)
-        df_rev = df[::-1].copy()
-
-        df['ma_5'] = df['close'].rolling(window=5).mean()
-        df['ma_20'] = df['close'].rolling(window=20).mean()
-
-        # 📉 Daily % Change (Daily Return)
-        df_rev["daily_return"] = df_rev["close"].pct_change()
-
-        # 💹 RSI (Relative Strength Index)
-        df_rev["rsi"] = ta.momentum.RSIIndicator(df_rev["close"], window=14).rsi()
-
-        # 📊 MACD and Signal Line
-        macd = ta.trend.MACD(df_rev["close"])
-        df_rev["macd"] = macd.macd()
-        df_rev["macd_signal"] = macd.macd_signal()
-
-        # Reverse back to original format (newest row at top)
-        df["daily_return"] = df_rev["daily_return"][::-1].values
-        df["rsi"] = df_rev["rsi"][::-1].values
-        df["macd"] = df_rev["macd"][::-1].values
-        df["macd_signal"] = df_rev["macd_signal"][::-1].values
-        df["target"] = (df["close"].shift(-1) > df["close"]).astype(int)
-        df['next_day_close'] = df['close'].shift(-1)
-        logging.info(f"MA, MACD, RSI columns added in dataset\n{df.head()}")
-
-
-        return df
-
-
     def initiate_data_ingestion(self, symbol: str, api_key: str):
-        
+        with open("config.yaml", "r") as f:
+            config = yaml.safe_load(f)
+
+            api_key = config["api_key"]
         logging.info("Entered the data ingestion method/component")
 
         try:
             df = self.fetch_daily_stock_data(symbol, api_key)
-
-
-
 
             logging.info("Train-test split initiated")
             train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
@@ -127,14 +90,11 @@ class DataIngestion:
             raise CustomException(e, sys)
 #  
 if __name__ =="__main__":
-    
-
-    
     obj = DataIngestion()
-    train_data, test_data = obj.initiate_data_ingestion("IBM", api_key)
+    train_data, test_data = obj.initiate_data_ingestion()
 
-    data_transformation = DataTransformation()
-    train_arr, test_arr, _ =data_transformation.initiate_data_transformation(train_data, test_data)
+    # data_transformation = DataTransformation()
+    # train_arr, test_arr, _ =data_transformation.initiate_data_transformation(train_data, test_data)
 
-    modelTrainer= ModelTrainer()
-    print(modelTrainer.initiate_model_trainer(train_arr, test_arr))
+    # modelTrainer= ModelTrainer()
+    # print(modelTrainer.initiate_model_trainer(train_arr, test_arr))
