@@ -1,0 +1,17 @@
+[ 2025-04-09 01:03:13,519 ] 109 root INFO - Entered the data ingestion method/component
+[ 2025-04-09 01:03:44,946 ] 101 root INFO - MA, MACD, RSI columns added in dataset
+             open   high    low  close      volume    ma_5  ma_20  daily_return        rsi      macd  macd_signal  target  next_day_close
+1999-11-01  98.50  98.81  96.37  96.75   9551800.0     NaN    NaN      0.020462  44.753776 -3.698859    -4.042953       0           94.81
+1999-11-02  96.75  96.81  93.69  94.81  11105400.0     NaN    NaN      0.004662  40.702688 -4.113819    -4.128976       0           94.37
+1999-11-03  95.87  95.94  93.50  94.37  10369100.0     NaN    NaN      0.030690  39.772588 -4.386095    -4.132765       0           91.56
+1999-11-04  94.44  94.44  90.00  91.56  16697600.0     NaN    NaN      0.014515  33.595856 -4.625021    -4.069433       0           90.25
+1999-11-05  92.75  92.94  90.19  90.25  13737600.0  93.548    NaN     -0.039280  30.510807 -4.576595    -3.930536       1           93.94
+[ 2025-04-09 01:03:45,036 ] 68 root INFO - [\u2714] Daily data for IBM saved to artifact\data.csv
+[ 2025-04-09 01:03:45,038 ] 114 root INFO - Train-test split initiated
+[ 2025-04-09 01:03:45,125 ] 120 root INFO - Ingestion of the data is completed
+[ 2025-04-09 01:03:45,251 ] 57 root INFO - Read train and test data completed
+[ 2025-04-09 01:03:45,251 ] 69 root INFO - Obtaining preprocessor object for task: regression
+[ 2025-04-09 01:03:45,251 ] 40 root INFO - Numerical columns :['open', 'high', 'low', 'close', 'volume', 'ma_5', 'ma_20', 'daily_return', 'rsi', 'macd', 'macd_signal']
+[ 2025-04-09 01:03:45,298 ] 81 root INFO - Applying preprocessor object on training and testing data
+[ 2025-04-09 01:03:45,321 ] 90 root INFO - Saving preprocessing object to: artifact\reg_preprocessor.pkl
+[ 2025-04-09 01:03:45,324 ] 30 root INFO - Splitting training and test input data

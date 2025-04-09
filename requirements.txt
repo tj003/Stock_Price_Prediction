@@ -6,6 +6,6 @@ scikit-learn
 xgboost
 dill
 flask
-request
+requests
 ta
--e .
+#-e .

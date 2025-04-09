@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-import yaml
+
 from src.exception import CustomException
 from src.logger import logging
 import pandas as pd
@@ -62,6 +62,7 @@ class DataIngestion:
                 df[col] = df[col].astype(float)
             
             df = self.add_ma_rsi_macd(df)
+            df.dropna(inplace=True)
 
             os.makedirs(os.path.dirname(self.ingestion_config.raw_data_path), exist_ok=True)
             df.to_csv(self.ingestion_config.raw_data_path, index=True)
@@ -98,6 +99,8 @@ class DataIngestion:
         df["macd_signal"] = df_rev["macd_signal"][::-1].values
         df["target"] = (df["close"].shift(-1) > df["close"]).astype(int)
         df['next_day_close'] = df['close'].shift(-1)
+        # Drop rows with NaNs caused by indicators or shift
+        df.dropna(inplace=True)
         logging.info(f"MA, MACD, RSI columns added in dataset\n{df.head()}")
 
 
@@ -110,9 +113,6 @@ class DataIngestion:
 
         try:
             df = self.fetch_daily_stock_data(symbol, api_key)
-
-
-
 
             logging.info("Train-test split initiated")
             train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
@@ -127,14 +127,29 @@ class DataIngestion:
             raise CustomException(e, sys)
 #  
 if __name__ =="__main__":
-    
-
-    
     obj = DataIngestion()
     train_data, test_data = obj.initiate_data_ingestion("IBM", api_key)
 
-    data_transformation = DataTransformation()
-    train_arr, test_arr, _ =data_transformation.initiate_data_transformation(train_data, test_data)
+    # ===== REGRESSION PIPELINE =====
 
-    modelTrainer= ModelTrainer()
-    print(modelTrainer.initiate_model_trainer(train_arr, test_arr))
+    regression_transformer  = DataTransformation()
+    train_arr_reg, test_arr_reg, _ = regression_transformer.initiate_data_transformation(train_data, test_data, task="regression")
+    regression_trainer = ModelTrainer()
+    print("✅ Training Regression Model")
+    regression_result = regression_trainer.initiate_model_trainer(
+        train_arr_reg, test_arr_reg, task="regression"
+    )
+    print("📦 Regression Result:", regression_result)
+
+    # ===== CLASSIFICATION PIPELINE =====
+    classification_transformer = DataTransformation()
+    train_arr_cls, test_arr_cls, _ = classification_transformer.initiate_data_transformation(
+        train_data, test_data, task="classification"
+    )
+
+    classification_trainer = ModelTrainer()
+    print("✅ Training Classification Model")
+    classification_result = classification_trainer.initiate_model_trainer(
+        train_arr_cls, test_arr_cls, task="classification"
+    )
+    print("📦 Classification Result:", classification_result)

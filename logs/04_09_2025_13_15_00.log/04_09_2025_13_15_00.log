@@ -1,0 +1,77 @@
+[ 2025-04-09 13:15:02,898 ] 112 root INFO - Entered the data ingestion method/component
+[ 2025-04-09 13:15:04,820 ] 104 root INFO - MA, MACD, RSI columns added in dataset
+              open    high     low   close      volume     ma_5     ma_20  daily_return        rsi      macd  macd_signal  target  next_day_close
+1999-11-29  104.94  104.94  103.37  104.19   5677700.0  105.524   97.7580      0.010964  39.093658 -1.793318    -0.998341       0          103.06
+1999-11-30  103.69  104.50  102.12  103.06   5758700.0  104.562   98.0735     -0.003481  36.716829 -1.507554    -0.799596       1          103.42
+1999-12-01  102.56  104.44  102.25  103.42   5336400.0  104.034   98.5040     -0.017574  37.145656 -1.005832    -0.622607       1          105.27
+1999-12-02  103.44  106.31  103.37  105.27   6216900.0  104.188   99.0490     -0.058997  39.338031 -0.387477    -0.526801       1          111.87
+1999-12-03  109.81  112.87  107.94  111.87  14680300.0  105.562  100.0645     -0.035603  48.898792  0.219042    -0.561632       1          116.00
+[ 2025-04-09 13:15:04,903 ] 69 root INFO - [\u2714] Daily data for IBM saved to artifact\data.csv
+[ 2025-04-09 13:15:04,904 ] 117 root INFO - Train-test split initiated
+[ 2025-04-09 13:15:04,986 ] 123 root INFO - Ingestion of the data is completed
+[ 2025-04-09 13:15:05,019 ] 57 root INFO - Read train and test data completed
+[ 2025-04-09 13:15:05,019 ] 69 root INFO - Obtaining preprocessor object for task: regression
+[ 2025-04-09 13:15:05,019 ] 40 root INFO - Numerical columns :['open', 'high', 'low', 'close', 'volume', 'ma_5', 'ma_20', 'daily_return', 'rsi', 'macd', 'macd_signal']
+[ 2025-04-09 13:15:05,021 ] 81 root INFO - Applying preprocessor object on training and testing data
+[ 2025-04-09 13:15:05,026 ] 90 root INFO - Saving preprocessing object to: artifact\reg_preprocessor.pkl
+[ 2025-04-09 13:15:05,028 ] 30 root INFO - \U0001f4e6 Starting model trainer pipeline.
+[ 2025-04-09 13:15:05,028 ] 31 root INFO - \U0001f500 Splitting training and testing data arrays.
+[ 2025-04-09 13:15:05,028 ] 40 root INFO - \U0001f4ca Task type detected: regression
+[ 2025-04-09 13:15:05,028 ] 44 root INFO - \U0001f9e0 Initializing regression models and hyperparameters.
+[ 2025-04-09 13:15:05,028 ] 119 root INFO - \U0001f680 Starting model evaluation...
+[ 2025-04-09 13:15:05,028 ] 29 root INFO - \u2699\ufe0f Training model: Linear Regression
+[ 2025-04-09 13:15:07,370 ] 32 root INFO - \u2705 Finished training: Linear Regression
+[ 2025-04-09 13:15:07,371 ] 43 root INFO - \U0001f4c8 Linear Regression score: 0.9997777677718603
+[ 2025-04-09 13:15:07,371 ] 29 root INFO - \u2699\ufe0f Training model: Decision Tree
+[ 2025-04-09 13:15:10,275 ] 32 root INFO - \u2705 Finished training: Decision Tree
+[ 2025-04-09 13:15:10,276 ] 43 root INFO - \U0001f4c8 Decision Tree score: 0.9991285599207088
+[ 2025-04-09 13:15:10,277 ] 29 root INFO - \u2699\ufe0f Training model: Gradient Boosting Regressor
+[ 2025-04-09 13:16:46,115 ] 32 root INFO - \u2705 Finished training: Gradient Boosting Regressor
+[ 2025-04-09 13:16:46,119 ] 43 root INFO - \U0001f4c8 Gradient Boosting Regressor score: 0.9997066371027141
+[ 2025-04-09 13:16:46,119 ] 29 root INFO - \u2699\ufe0f Training model: Random Forest Regressor
+[ 2025-04-09 13:17:06,348 ] 32 root INFO - \u2705 Finished training: Random Forest Regressor
+[ 2025-04-09 13:17:06,389 ] 43 root INFO - \U0001f4c8 Random Forest Regressor score: 0.9994020922110977
+[ 2025-04-09 13:17:06,389 ] 29 root INFO - \u2699\ufe0f Training model: XGBRegressor
+[ 2025-04-09 13:17:12,952 ] 32 root INFO - \u2705 Finished training: XGBRegressor
+[ 2025-04-09 13:17:12,957 ] 43 root INFO - \U0001f4c8 XGBRegressor score: 0.9997395931354597
+[ 2025-04-09 13:17:12,957 ] 29 root INFO - \u2699\ufe0f Training model: AdaBoost Regressor
+[ 2025-04-09 13:17:32,357 ] 32 root INFO - \u2705 Finished training: AdaBoost Regressor
+[ 2025-04-09 13:17:32,370 ] 43 root INFO - \U0001f4c8 AdaBoost Regressor score: 0.9936088576271237
+[ 2025-04-09 13:17:32,370 ] 127 root INFO - \u2705 Model evaluation completed.
+[ 2025-04-09 13:17:32,371 ] 134 root INFO - \U0001f3c6 Best model selected: Linear Regression with score: 0.9997777677718603
+[ 2025-04-09 13:17:32,371 ] 143 root INFO - \U0001f4be Saving best regression model to: Artifact\model_reg.pkl
+[ 2025-04-09 13:17:32,372 ] 146 root INFO - \U0001f50d Performing final evaluation on test set...
+[ 2025-04-09 13:17:32,372 ] 150 root INFO - \U0001f3af Final regression score on test data: 0.9997777677718603
+[ 2025-04-09 13:17:32,397 ] 57 root INFO - Read train and test data completed
+[ 2025-04-09 13:17:32,398 ] 69 root INFO - Obtaining preprocessor object for task: classification
+[ 2025-04-09 13:17:32,398 ] 40 root INFO - Numerical columns :['open', 'high', 'low', 'close', 'volume', 'ma_5', 'ma_20', 'daily_return', 'rsi', 'macd', 'macd_signal']
+[ 2025-04-09 13:17:32,398 ] 81 root INFO - Applying preprocessor object on training and testing data
+[ 2025-04-09 13:17:32,404 ] 90 root INFO - Saving preprocessing object to: artifact\clf_preprocessor.pkl
+[ 2025-04-09 13:17:32,407 ] 30 root INFO - \U0001f4e6 Starting model trainer pipeline.
+[ 2025-04-09 13:17:32,407 ] 31 root INFO - \U0001f500 Splitting training and testing data arrays.
+[ 2025-04-09 13:17:32,408 ] 40 root INFO - \U0001f4ca Task type detected: classification
+[ 2025-04-09 13:17:32,408 ] 81 root INFO - \U0001f9e0 Initializing classification models and hyperparameters.
+[ 2025-04-09 13:17:32,408 ] 119 root INFO - \U0001f680 Starting model evaluation...
+[ 2025-04-09 13:17:32,408 ] 29 root INFO - \u2699\ufe0f Training model: Logistic Regression
+[ 2025-04-09 13:17:32,832 ] 32 root INFO - \u2705 Finished training: Logistic Regression
+[ 2025-04-09 13:17:32,833 ] 43 root INFO - \U0001f4c8 Logistic Regression score: 0.9960629921259843
+[ 2025-04-09 13:17:32,833 ] 29 root INFO - \u2699\ufe0f Training model: Decision Tree Classifier
+[ 2025-04-09 13:17:32,907 ] 32 root INFO - \u2705 Finished training: Decision Tree Classifier
+[ 2025-04-09 13:17:32,909 ] 43 root INFO - \U0001f4c8 Decision Tree Classifier score: 1.0
+[ 2025-04-09 13:17:32,910 ] 29 root INFO - \u2699\ufe0f Training model: Random Forest Classifier
+[ 2025-04-09 13:17:34,967 ] 32 root INFO - \u2705 Finished training: Random Forest Classifier
+[ 2025-04-09 13:17:34,969 ] 43 root INFO - \U0001f4c8 Random Forest Classifier score: 1.0
+[ 2025-04-09 13:17:34,969 ] 29 root INFO - \u2699\ufe0f Training model: Gradient Boosting Classifier
+[ 2025-04-09 13:17:46,012 ] 32 root INFO - \u2705 Finished training: Gradient Boosting Classifier
+[ 2025-04-09 13:17:46,013 ] 43 root INFO - \U0001f4c8 Gradient Boosting Classifier score: 1.0
+[ 2025-04-09 13:17:46,013 ] 29 root INFO - \u2699\ufe0f Training model: AdaBoost Classifier
+[ 2025-04-09 13:17:46,256 ] 32 root INFO - \u2705 Finished training: AdaBoost Classifier
+[ 2025-04-09 13:17:46,258 ] 43 root INFO - \U0001f4c8 AdaBoost Classifier score: 1.0
+[ 2025-04-09 13:17:46,258 ] 29 root INFO - \u2699\ufe0f Training model: XGBClassifier
+[ 2025-04-09 13:17:47,649 ] 32 root INFO - \u2705 Finished training: XGBClassifier
+[ 2025-04-09 13:17:47,652 ] 43 root INFO - \U0001f4c8 XGBClassifier score: 0.9976377952755906
+[ 2025-04-09 13:17:47,652 ] 127 root INFO - \u2705 Model evaluation completed.
+[ 2025-04-09 13:17:47,652 ] 134 root INFO - \U0001f3c6 Best model selected: Decision Tree Classifier with score: 1.0
+[ 2025-04-09 13:17:47,652 ] 143 root INFO - \U0001f4be Saving best classification model to: Artifact\model_cls.pkl
+[ 2025-04-09 13:17:47,655 ] 146 root INFO - \U0001f50d Performing final evaluation on test set...
+[ 2025-04-09 13:17:47,657 ] 150 root INFO - \U0001f3af Final classification score on test data: 1.0

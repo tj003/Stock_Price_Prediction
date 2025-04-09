@@ -1,0 +1,56 @@
+[ 2025-04-09 12:37:57,413 ] 112 root INFO - Entered the data ingestion method/component
+[ 2025-04-09 12:37:59,396 ] 104 root INFO - MA, MACD, RSI columns added in dataset
+              open    high     low   close      volume     ma_5     ma_20  daily_return        rsi      macd  macd_signal  target  next_day_close
+1999-11-29  104.94  104.94  103.37  104.19   5677700.0  105.524   97.7580      0.010964  39.093658 -1.793318    -0.998341       0          103.06
+1999-11-30  103.69  104.50  102.12  103.06   5758700.0  104.562   98.0735     -0.003481  36.716829 -1.507554    -0.799596       1          103.42
+1999-12-01  102.56  104.44  102.25  103.42   5336400.0  104.034   98.5040     -0.017574  37.145656 -1.005832    -0.622607       1          105.27
+1999-12-02  103.44  106.31  103.37  105.27   6216900.0  104.188   99.0490     -0.058997  39.338031 -0.387477    -0.526801       1          111.87
+1999-12-03  109.81  112.87  107.94  111.87  14680300.0  105.562  100.0645     -0.035603  48.898792  0.219042    -0.561632       1          116.00
+[ 2025-04-09 12:37:59,801 ] 69 root INFO - [\u2714] Daily data for IBM saved to artifact\data.csv
+[ 2025-04-09 12:37:59,807 ] 117 root INFO - Train-test split initiated
+[ 2025-04-09 12:38:00,169 ] 123 root INFO - Ingestion of the data is completed
+[ 2025-04-09 12:38:00,259 ] 57 root INFO - Read train and test data completed
+[ 2025-04-09 12:38:00,260 ] 69 root INFO - Obtaining preprocessor object for task: regression
+[ 2025-04-09 12:38:00,260 ] 40 root INFO - Numerical columns :['open', 'high', 'low', 'close', 'volume', 'ma_5', 'ma_20', 'daily_return', 'rsi', 'macd', 'macd_signal']
+[ 2025-04-09 12:38:00,264 ] 81 root INFO - Applying preprocessor object on training and testing data
+[ 2025-04-09 12:38:00,290 ] 90 root INFO - Saving preprocessing object to: artifact\reg_preprocessor.pkl
+[ 2025-04-09 12:38:00,298 ] 30 root INFO - \U0001f4e6 Starting model trainer pipeline.
+[ 2025-04-09 12:38:00,298 ] 31 root INFO - \U0001f500 Splitting training and testing data arrays.
+[ 2025-04-09 12:38:00,298 ] 40 root INFO - \U0001f4ca Task type detected: regression
+[ 2025-04-09 12:38:00,298 ] 44 root INFO - \U0001f9e0 Initializing regression models and hyperparameters.
+[ 2025-04-09 12:38:00,300 ] 119 root INFO - \U0001f680 Starting model evaluation...
+[ 2025-04-09 12:38:00,300 ] 28 root INFO - \u2699\ufe0f Training model: Linear Regression
+[ 2025-04-09 12:38:05,790 ] 31 root INFO - \u2705 Finished training: Linear Regression
+[ 2025-04-09 12:38:05,792 ] 42 root INFO - \U0001f4c8 Linear Regression score: 0.9997777677718603
+[ 2025-04-09 12:38:05,792 ] 28 root INFO - \u2699\ufe0f Training model: Decision Tree
+[ 2025-04-09 12:38:12,051 ] 31 root INFO - \u2705 Finished training: Decision Tree
+[ 2025-04-09 12:38:12,055 ] 42 root INFO - \U0001f4c8 Decision Tree score: 0.99908606791093
+[ 2025-04-09 12:38:12,055 ] 28 root INFO - \u2699\ufe0f Training model: Gradient Boosting Regressor
+[ 2025-04-09 12:42:12,048 ] 31 root INFO - \u2705 Finished training: Gradient Boosting Regressor
+[ 2025-04-09 12:42:12,054 ] 42 root INFO - \U0001f4c8 Gradient Boosting Regressor score: 0.9997275962618801
+[ 2025-04-09 12:42:12,054 ] 28 root INFO - \u2699\ufe0f Training model: Random Forest Regressor
+[ 2025-04-09 12:42:51,040 ] 31 root INFO - \u2705 Finished training: Random Forest Regressor
+[ 2025-04-09 12:42:51,085 ] 42 root INFO - \U0001f4c8 Random Forest Regressor score: 0.9993758327276494
+[ 2025-04-09 12:42:51,085 ] 28 root INFO - \u2699\ufe0f Training model: XGBRegressor
+[ 2025-04-09 12:43:02,678 ] 31 root INFO - \u2705 Finished training: XGBRegressor
+[ 2025-04-09 12:43:02,696 ] 42 root INFO - \U0001f4c8 XGBRegressor score: 0.9997395931354597
+[ 2025-04-09 12:43:02,696 ] 28 root INFO - \u2699\ufe0f Training model: AdaBoost Regressor
+[ 2025-04-09 12:43:46,544 ] 31 root INFO - \u2705 Finished training: AdaBoost Regressor
+[ 2025-04-09 12:43:46,613 ] 42 root INFO - \U0001f4c8 AdaBoost Regressor score: 0.9942881532933191
+[ 2025-04-09 12:43:46,614 ] 126 root INFO - \u2705 Model evaluation completed.
+[ 2025-04-09 12:43:46,614 ] 132 root INFO - \U0001f3c6 Best model selected: Linear Regression with score: 0.9997777677718603
+[ 2025-04-09 12:43:46,614 ] 141 root INFO - \U0001f4be Saving best regression model to: Artifact\model_reg.pkl
+[ 2025-04-09 12:43:46,615 ] 144 root INFO - \U0001f50d Performing final evaluation on test set...
+[ 2025-04-09 12:43:46,617 ] 153 root ERROR - \u274c Exception occurred in initiate_model_trainer.
+Traceback (most recent call last):
+  File "D:\AI-ML\Stock_Price_Prediction\src\components\model_trainer.py", line 145, in initiate_model_trainer
+    predictions = best_model.predict(X_test)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-ML\Stock_Price_Prediction\env\Lib\site-packages\sklearn\linear_model\_base.py", line 297, in predict
+    return self._decision_function(X)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-ML\Stock_Price_Prediction\env\Lib\site-packages\sklearn\linear_model\_base.py", line 274, in _decision_function
+    check_is_fitted(self)
+  File "D:\AI-ML\Stock_Price_Prediction\env\Lib\site-packages\sklearn\utils\validation.py", line 1757, in check_is_fitted
+    raise NotFittedError(msg % {"name": type(estimator).__name__})
+sklearn.exceptions.NotFittedError: This LinearRegression instance is not fitted yet. Call 'fit' with appropriate arguments before using this estimator.

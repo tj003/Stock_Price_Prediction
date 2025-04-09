@@ -6,7 +6,8 @@ from src.exception import CustomException
 import dill # helps to create an pickle file
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
-
+from sklearn.metrics import r2_score, accuracy_score
+from src.logger import logging
 def save_object(file_path, obj):
     try:
         dir_path = os.path.dirname(file_path)
@@ -19,34 +20,36 @@ def save_object(file_path, obj):
     except Exception as e:
         raise CustomException(e, sys)
     
-def evaluate_model(X_train,y_train, X_test, y_test, models, param):
+def evaluate_model(X_train, y_train, X_test, y_test, models, param, task):
     try:
         report = {}
+        trained_models = {}
 
-        for i in range(len(list(models))):
-            model = list(models.values())[i]
-            para=param[list(models.keys())[i]]
-            gs = GridSearchCV(model,para,cv=3)
-            gs.fit(X_train,y_train)
+        for name, model in models.items():
+            logging.info(f"⚙️ Training model: {name}")
+            pipeline = GridSearchCV(model, param[name], cv=3, n_jobs=-1, verbose=1)
+            pipeline.fit(X_train, y_train)
+            logging.info(f"✅ Finished training: {name}")
 
-            model.set_params(**gs.best_params_)
+            best_model = pipeline.best_estimator_
 
-            model.fit(X_train, y_train)
+            if task == "regression":
+                y_pred = best_model.predict(X_test)
+                score = r2_score(y_test, y_pred)
+            else:
+                y_pred = best_model.predict(X_test)
+                score = accuracy_score(y_test, y_pred)
 
-            y_train_pred = model.predict(X_train)
+            logging.info(f"📈 {name} score: {score}")
+            report[name] = score
+            trained_models[name] = best_model  # Save the trained model
 
-            y_test_pred = model.predict(X_test)
+        return report, trained_models
 
-            train_model_score = r2_score(y_train, y_train_pred)
-
-            test_model_score = r2_score(y_test, y_test_pred)
-
-            report[list(models.keys())[i]] = test_model_score
-
-        return report
-    
     except Exception as e:
         raise CustomException(e, sys)
+
+
     
 def load_object(file_path):
     try:
