@@ -1,0 +1,76 @@
+[ 2025-04-09 19:30:14,012 ] 97 werkzeug INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.30.27.52:8080
+[ 2025-04-09 19:30:14,012 ] 97 werkzeug INFO - [33mPress CTRL+C to quit[0m
+[ 2025-04-09 19:30:18,749 ] 875 app ERROR - Exception on /predictdata [GET]
+Traceback (most recent call last):
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\app.py", line 14, in predict_datapoint
+    return render_template('home.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\templates\home.html", line 102, in top-level template code
+    <strong>Prediction for {{ stock.upper() }} ({{ task.capitalize() }}):</strong><br>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'stock' is undefined
+[ 2025-04-09 19:30:18,760 ] 97 werkzeug INFO - 127.0.0.1 - - [09/Apr/2025 19:30:18] "[35m[1mGET /predictdata HTTP/1.1[0m" 500 -
+[ 2025-04-09 19:30:20,780 ] 97 werkzeug INFO - 127.0.0.1 - - [09/Apr/2025 19:30:20] "GET / HTTP/1.1" 200 -
+[ 2025-04-09 19:30:22,115 ] 875 app ERROR - Exception on /predictdata [GET]
+Traceback (most recent call last):
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\app.py", line 14, in predict_datapoint
+    return render_template('home.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\templates\home.html", line 102, in top-level template code
+    <strong>Prediction for {{ stock.upper() }} ({{ task.capitalize() }}):</strong><br>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\V_Tushar.Jadhav\Desktop\AI\Stock_project\Stock_Price_Prediction\env\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'stock' is undefined
+[ 2025-04-09 19:30:22,120 ] 97 werkzeug INFO - 127.0.0.1 - - [09/Apr/2025 19:30:22] "[35m[1mGET /predictdata HTTP/1.1[0m" 500 -

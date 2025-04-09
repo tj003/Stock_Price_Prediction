@@ -1,14 +1,8 @@
 from flask import Flask, request, render_template
-import numpy as np
-import pandas as pd 
-
-from sklearn.preprocessing import StandardScaler
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
+
 application = Flask(__name__)
-
 app = application
-
-## route for a home page
 
 @app.route('/')
 def index():
@@ -16,26 +10,31 @@ def index():
 
 @app.route('/predictdata', methods=['GET', 'POST'])
 def predict_datapoint():
-    if request.method=='GET':
+    if request.method == 'GET':
         return render_template('home.html')
     else:
-        data = CustomData(
-            gender = request.form.get('gender'),
-            race_ethnicity= request.form.get('ethnicity'),
-            parental_level_of_education=request.form.get('parental_level_of_education'),
-            lunch=request.form.get('lunch'),
-            test_preparation_course=request.form.get('test_preparation_course'),
-            reading_score= request.form.get('reading_score'),
-            writing_score= request.form.get('writing_score') 
+        stock_symbol = request.form.get('stock_symbol')
+        task = request.form.get('task')
 
-                )
-        pred_df = data.get_data_as_frame()
-        print(pred_df)
+        data = CustomData(stock_symbol=stock_symbol, task=task)
+        symbol, task_type = data.get_inputs()
 
-        predict_pipeline = PredictPipeline()
-        results = predict_pipeline.predict(pred_df)
+        pipeline = PredictPipeline()
+        try:
+            result = pipeline.predict(symbol, task_type)
 
-        return render_template('home.html', results = results[0])
+            if task_type == 'classification':
+                result = "Up 📈" if result == 1 else "Down 📉"
+            elif task_type == 'regression':
+                result = round(float(result), 2)  # just to make sure it's nicely formatted
+
+            return render_template('home.html', results=result, task=task_type, stock=stock_symbol)
+        
+        except Exception as e:
+            # You can render error message if something fails
+            return render_template('home.html', results=f"Error: {str(e)}", task=task_type, stock=stock_symbol)
+
+    return render_template('home.html')  # fallback
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=8080)

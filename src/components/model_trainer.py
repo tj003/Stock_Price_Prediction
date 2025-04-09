@@ -126,9 +126,17 @@ class ModelTrainer:
 
             logging.info("✅ Model evaluation completed.")
 
-            best_model_score = max(model_report.values())
-            best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
-            best_model = trained_models[best_model_name] 
+            # Filter out overfitted models (score == 1.0)
+            filtered_model_report = {k: v for k, v in model_report.items() if v < 1.0}
+
+            if not filtered_model_report:
+                logging.warning("⚠️ All models appear to be overfitting (score == 1.0).")
+                raise CustomException("All models overfit — score == 1.0")
+
+            best_model_score = max(filtered_model_report.values())
+            best_model_name = max(filtered_model_report, key=filtered_model_report.get)
+            best_model = trained_models[best_model_name]
+
 
 
             logging.info(f"🏆 Best model selected: {best_model_name} with score: {best_model_score}")
@@ -140,8 +148,10 @@ class ModelTrainer:
                 logging.warning("⚠️ No suitable classification model found (accuracy < 0.6)")
                 raise CustomException("No best classification model found (accuracy < 0.6)")
 
-            logging.info(f"💾 Saving best {task} model to: {model_path}")
+            logging.info(f"💾 Saving best {task} model: '{best_model_name}' to file: {model_path}")
             save_object(file_path=model_path, obj=best_model)
+            logging.info(f"📁 Model '{best_model_name}' has been successfully saved.")
+
 
             logging.info("🔍 Performing final evaluation on test set...")
             predictions = best_model.predict(X_test)

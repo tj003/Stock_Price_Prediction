@@ -1,111 +1,104 @@
+<!-- <!DOCTYPE html>
 <html>
+<head>
+    <title>Stock Predictor</title>
+</head>
 <body>
     <div class="login">
-       <h1>Student Exam Performance Indicator</h1>
-   
-       <form action="{{ url_for('predict_datapoint')}}" method="post">
-        <h1>
-            <legend>Student Exam Performance Prediction</legend>
-        </h1>
+        <h1>Stock Price Prediction</h1>
+        <form action="{{ url_for('predict_datapoint') }}" method="post">
+            <div class="mb-3">
+                <label class="form-label">Stock Symbol</label>
+                <input class="form-control" type="text" name="stock_symbol" placeholder="e.g. AAPL" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Prediction Task</label>
+                <select class="form-control" name="task" required>
+                    <option class="placeholder" selected disabled value="">Select Task</option>
+                    <option value="regression">Next Day Close Price (Regression)</option>
+                    <option value="classification">Price Up/Down Prediction (Classification)</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-primary" type="submit" value="Predict" />
+            </div>
+        </form>
+
+        {% if results is not none %}
+        <h2>
+            Prediction for {{ stock }} ({{ task }}) is: <strong>{{ results }}</strong>
+        </h2>
+        {% endif %}
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Price Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            max-width: 500px;
+            width: 100%;
+        }
+        .btn-primary {
+            width: 100%;
+        }
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #e9f7ef;
+            border-left: 5px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>📈 Stock Price Predictor</h1>
+    <form action="{{ url_for('predict_datapoint') }}" method="post">
         <div class="mb-3">
-            <label class="form-label">Gender</label>
-            <select class="form-control" name="gender" placeholder="Enter you Gender" required>
-                <option class="placeholder" selected disabled value="">Select your Gender</option>
-                <option value="male">
-                    Male
-                </option>
-                <option value="female">
-                    Female
-                </option>
+            <label class="form-label">Stock Symbol</label>
+            <input class="form-control" type="text" name="stock_symbol" placeholder="e.g. AAPL" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Prediction Task</label>
+            <select class="form-select" name="task" required>
+                <option selected disabled value="">Select Task</option>
+                <option value="regression">Next Day Close Price (Regression)</option>
+                <option value="classification">Price Up/Down Prediction (Classification)</option>
             </select>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Race or Ethnicity</label>
-            <select class="form-control" name="ethnicity" placeholder="Enter you ethnicity" required>
-                <option class="placeholder" selected disabled value="">Select Ethnicity</option>
-                <option value="group A">
-                    Group A
-                </option>
-                <option value="group B">
-                    Group B
-                </option>
-                <option value="group C">
-                    Group C
-                </option>
-                <option value="group D">
-                    Group D
-                </option>
-                <option value="group E">
-                    Group E
-                </option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Parental Level of Education</label>
-            <select class="form-control" name="parental_level_of_education"
-                placeholder="Enter you Parent Education" required>
-                <option class="placeholder" selected disabled value="">Select Parent Education</option>
-                <option value="associate's degree">
-                    associate's degree
-                </option>
-                <option value="bachelor's degree">
-                    bachelor's degree
-                </option>
-                <option value="high school">
-                    high school
-                </option>
-                <option value="master's degree">
-                    master's degree
-                </option>
-                <option value="some college">
-                    some college
-                </option>
-                <option value="some high school">
-                    some high school
-                </option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Lunch Type</label>
-            <select class="form-control" name="lunch" placeholder="Enter you Lunch" required>
-                <option class="placeholder" selected disabled value="">Select Lunch Type</option>
-                <option value="free/reduced">
-                    free/reduced
-                </option>
-                <option value="standard">
-                    standard
-                </option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Test preparation Course</label>
-            <select class="form-control" name="test_preparation_course" placeholder="Enter you Course"
-                required>
-                <option class="placeholder" selected disabled value="">Select Test_course</option>
-                <option value="none">
-                    None
-                </option>
-                <option value="completed">
-                    Completed
-                </option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Writing Score out of 100</label>
-            <input class="form-control" type="number" name="reading_score"
-                placeholder="Enter your Reading score" min='0' max='100' />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Reading Score out of 100</label>
-            <input class="form-control" type="number" name="writing_score"
-                placeholder="Enter your Reading Score" min='0' max='100' />
-        </div>
-        <div class="mb-3">
-            <input class="btn btn-primary" type="submit" value="Predict your Maths Score" required />
-        </div>
+        <button type="submit" class="btn btn-primary">Predict</button>
     </form>
-    <h2>
-       THE  prediction is {{results}}
-    </h2>
-   <body>
+
+    {% if results is not none %}
+        <div class="result-box mt-4">
+            <strong>Prediction for {{ stock|default('')|upper }} ({{ task|default('')|capitalize }}):</strong><br>
+            {{ results }}
+        </div>
+    {% endif %}
+</div>
+
+</body>
 </html>

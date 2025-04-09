@@ -1,62 +1,49 @@
-import sys 
+# src/pipeline/predict_pipeline.py
+import os
+import sys
 import pandas as pd
 from src.exception import CustomException
 from src.utils import load_object
-
+from src.components.data_ingestion import DataIngestion
+import logging
+from dotenv import load_dotenv
+load_dotenv()
 
 class PredictPipeline:
     def __init__(self):
-        pass
+        self.data_ingestor = DataIngestion()
 
-    def predict(self, features):
+    def predict(self, stock_symbol: str, task: str):
         try:
-            model_path = 'artifact\model.pkl'
-            preprocessor_path = 'artifact\preprocessor.pkl'
-            model = load_object(file_path=model_path)
-            preprocessor = load_object(file_path=preprocessor_path)
-            data_scaled = preprocessor.transform(features)
-            preds = model.predict(data_scaled)
-            return preds
-        except Exception as e:
-            raise CustomException(e,sys)
-        
+            df = self.data_ingestor.fetch_daily_stock_data(symbol=stock_symbol, api_key=os.getenv("ALPHAVANTAGE_API_KEY"))
+            latest_data = df.tail(1)  # Use the latest data point for prediction
 
+            if task == 'regression':
+                model_path = 'artifact/model_reg.pkl'
+                preprocessor_path = 'artifact/reg_preprocessor.pkl'
+            else:
+                model_path = 'artifact/model_cls.pkl'
+                preprocessor_path = 'artifact/clf_preprocessor.pkl'
+
+            model = load_object(model_path)
+            preprocessor = load_object(preprocessor_path)
+
+            selected_features = ['open', 'high', 'low', 'close', 'volume', 'ma_5', 'ma_20', 'daily_return', 'rsi', 'macd', 'macd_signal']
+            input_data = latest_data[selected_features]
+
+            transformed_data = preprocessor.transform(input_data)
+            prediction = model.predict(transformed_data)
+
+            logging.info(f"Prediction using {task} model for {stock_symbol}: {prediction[0]}")
+            return prediction[0]
+
+        except Exception as e:
+            raise CustomException(e, sys)
 
 class CustomData:
-    def __init__(self, 
-                 gender: str,
-                 race_ethnicity: str,
-                 parental_level_of_education,
-                 lunch: str,
-                 test_preparation_course: str,
-                 reading_score: int,
-                 writing_score: int
-                 ):
-        self.gender = gender
+    def __init__(self, stock_symbol: str, task: str):
+        self.stock_symbol = stock_symbol
+        self.task = task
 
-        self.race_ethnicity = race_ethnicity
-
-        self.parental_level_of_education = parental_level_of_education
-
-        self.lunch= lunch
-
-        self.test_preparation_course = test_preparation_course
-
-        self.reading_score = reading_score
-        
-        self.writing_score=writing_score
-
-    def get_data_as_frame(self):
-        try:
-            custom_data_input_dict = {
-                "gender":[self.gender],
-                'race_ethnicity':[self.race_ethnicity],
-                'parental_level_of_education':[self.parental_level_of_education],
-                'lunch':[self.lunch],
-                'test_preparation_course': [self.test_preparation_course],
-                'reading_score': [self.reading_score],
-                'writing_score': [self.writing_score]
-            }
-            return pd.DataFrame(custom_data_input_dict)
-        except Exception as e:
-            raise CustomException(e,sys)
+    def get_inputs(self):
+        return self.stock_symbol, self.task
