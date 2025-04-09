@@ -1,5 +1,5 @@
 pandas
-numpy
+numpy>=1.24
 seaborn
 matplotlib
 scikit-learn
@@ -8,5 +8,4 @@ dill
 flask
 requests
 ta
-dotenv
-#-e .
+python-dotenv

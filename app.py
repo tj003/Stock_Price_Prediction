@@ -34,7 +34,8 @@ def predict_datapoint():
             # You can render error message if something fails
             return render_template('home.html', results=f"Error: {str(e)}", task=task_type, stock=stock_symbol)
 
-    return render_template('home.html')  # fallback
+       
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
+

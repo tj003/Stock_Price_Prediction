@@ -1,37 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <title>Stock Predictor</title>
-</head>
-<body>
-    <div class="login">
-        <h1>Stock Price Prediction</h1>
-        <form action="{{ url_for('predict_datapoint') }}" method="post">
-            <div class="mb-3">
-                <label class="form-label">Stock Symbol</label>
-                <input class="form-control" type="text" name="stock_symbol" placeholder="e.g. AAPL" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Prediction Task</label>
-                <select class="form-control" name="task" required>
-                    <option class="placeholder" selected disabled value="">Select Task</option>
-                    <option value="regression">Next Day Close Price (Regression)</option>
-                    <option value="classification">Price Up/Down Prediction (Classification)</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Predict" />
-            </div>
-        </form>
-
-        {% if results is not none %}
-        <h2>
-            Prediction for {{ stock }} ({{ task }}) is: <strong>{{ results }}</strong>
-        </h2>
-        {% endif %}
-    </div>
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,11 +41,11 @@
 <body>
 
 <div class="card">
-    <h1>📈 Stock Price Predictor</h1>
+    <h1>📈 IBM Stock Price Predictor</h1>
     <form action="{{ url_for('predict_datapoint') }}" method="post">
         <div class="mb-3">
             <label class="form-label">Stock Symbol</label>
-            <input class="form-control" type="text" name="stock_symbol" placeholder="e.g. AAPL" required />
+            <input class="form-control" type="text" name="stock_symbol" placeholder="e.g. IBM" required />
         </div>
         <div class="mb-3">
             <label class="form-label">Prediction Task</label>
