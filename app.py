@@ -26,7 +26,7 @@ def predict_datapoint():
             if task_type == 'classification':
                 result = "Up 📈" if result == 1 else "Down 📉"
             elif task_type == 'regression':
-                result = round(float(result), 2)  # just to make sure it's nicely formatted
+                result = round(float(result), 2) 
 
             return render_template('home.html', results=result, task=task_type, stock=stock_symbol)
         

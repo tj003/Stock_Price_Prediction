@@ -5,15 +5,14 @@ import os
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer #to apply all data encoing method in piplines
-from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import StandardScaler
 
 from src.exception import CustomException
 from src.logger import logging
 
 from src.utils import save_object
-
+# define paths to save the transformed data
 @dataclass
 class DataTransformationConfig:
     reg_preprocessor_path: str = os.path.join('artifact', 'reg_preprocessor.pkl')
@@ -29,9 +28,7 @@ class DataTransformation:
         '''
         try:
             numerical_columns = ['open', 'high', 'low', 'close', 'volume', 'ma_5', 'ma_20', 'daily_return', 'rsi', 'macd', 'macd_signal']
-            categorical_columns = [
-                
-            ]
+           
             num_pipeline = Pipeline(
                 steps=[
                     ("scaler", StandardScaler(with_mean=False))
@@ -68,9 +65,7 @@ class DataTransformation:
 
             logging.info(f"Obtaining preprocessor object for task: {task}")
             preprocessor_obj = self.get_data_transformer_object()
-
-            numerical_columns = ['open', 'high', 'low', 'close', 'volume', 'ma_5', 'ma_20', 'daily_return', 'rsi', 'macd', 'macd_signal']
-
+            
             # Split into input and target
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]

@@ -42,7 +42,7 @@ def evaluate_model(X_train, y_train, X_test, y_test, models, param, task):
 
             logging.info(f"📈 {name} score: {score}")
             report[name] = score
-            trained_models[name] = best_model  # Save the trained model
+            trained_models[name] = best_model 
 
         return report, trained_models
 

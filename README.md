@@ -87,8 +87,4 @@ Made with ❤️ by Tushar Jadhav
 📧 Email: tusharj071@gmail.com
 🔗 LinkedIn: https://www.linkedin.com/in/tushar-jadhav-1a3881225/
 
-Let me know if you'd like:
-- A version using FastAPI instead of Flask
-- Graphs/logs of model performance added to README
-- A `.env.example` template for easier setup
 

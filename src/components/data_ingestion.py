@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("ALPHAVANTAGE_API_KEY")
 
+#define paths to save the data
 @dataclass
 class DataIngestionConfig:
     train_data_path: str = os.path.join('artifact', "train.csv")
@@ -30,7 +31,7 @@ class DataIngestion:
 
     def fetch_daily_stock_data(self, symbol: str, api_key: str) -> pd.DataFrame:
         """
-        Fetches daily stock data from Alpha Vantage and saves to raw_data_path.
+        Fetches daily stock data from Alpha Vantage API and saves to raw_data_path.
         """
         try:
             url = (
@@ -62,11 +63,11 @@ class DataIngestion:
                 df[col] = df[col].astype(float)
             
             df = self.add_ma_rsi_macd(df)
-            df.dropna(inplace=True)
+            df.dropna(inplace=True) # this will drop rows with NaN values and this nan occured due to indicators or shift
 
             os.makedirs(os.path.dirname(self.ingestion_config.raw_data_path), exist_ok=True)
             df.to_csv(self.ingestion_config.raw_data_path, index=True)
-            logging.info(f"[✔] Daily data for {symbol} saved to {self.ingestion_config.raw_data_path}")
+            logging.info(f" Daily data for {symbol} saved to {self.ingestion_config.raw_data_path}")
             return df
 
         except Exception as e:
@@ -81,13 +82,13 @@ class DataIngestion:
         df['ma_5'] = df['close'].rolling(window=5).mean()
         df['ma_20'] = df['close'].rolling(window=20).mean()
 
-        # 📉 Daily % Change (Daily Return)
+        #  Daily % Change (Daily Return)
         df_rev["daily_return"] = df_rev["close"].pct_change()
 
-        # 💹 RSI (Relative Strength Index)
+        # RSI (Relative Strength Index)
         df_rev["rsi"] = ta.momentum.RSIIndicator(df_rev["close"], window=14).rsi()
 
-        # 📊 MACD and Signal Line
+        #  MACD and Signal Line
         macd = ta.trend.MACD(df_rev["close"])
         df_rev["macd"] = macd.macd()
         df_rev["macd_signal"] = macd.macd_signal()
@@ -125,7 +126,7 @@ class DataIngestion:
 
         except Exception as e:
             raise CustomException(e, sys)
-#  
+# 
 if __name__ =="__main__":
     obj = DataIngestion()
     train_data, test_data = obj.initiate_data_ingestion("IBM", api_key)
@@ -135,11 +136,11 @@ if __name__ =="__main__":
     regression_transformer  = DataTransformation()
     train_arr_reg, test_arr_reg, _ = regression_transformer.initiate_data_transformation(train_data, test_data, task="regression")
     regression_trainer = ModelTrainer()
-    print("✅ Training Regression Model")
+    print("Training Regression Model")
     regression_result = regression_trainer.initiate_model_trainer(
         train_arr_reg, test_arr_reg, task="regression"
     )
-    print("📦 Regression Result:", regression_result)
+    print("Regression Result:", regression_result)
 
     # ===== CLASSIFICATION PIPELINE =====
     classification_transformer = DataTransformation()
@@ -148,8 +149,8 @@ if __name__ =="__main__":
     )
 
     classification_trainer = ModelTrainer()
-    print("✅ Training Classification Model")
+    print("Training Classification Model")
     classification_result = classification_trainer.initiate_model_trainer(
         train_arr_cls, test_arr_cls, task="classification"
     )
-    print("📦 Classification Result:", classification_result)
+    print("Classification Result:", classification_result)

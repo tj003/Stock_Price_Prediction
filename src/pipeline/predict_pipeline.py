@@ -7,7 +7,7 @@ from src.utils import load_object
 from src.components.data_ingestion import DataIngestion
 import logging
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv()# to load API key
 
 class PredictPipeline:
     def __init__(self):

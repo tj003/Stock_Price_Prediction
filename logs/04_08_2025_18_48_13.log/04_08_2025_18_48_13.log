@@ -1,4 +1,0 @@
-[ 2025-04-08 18:48:15,881 ] 72 root INFO - Entered the data ingestion method/component
-[ 2025-04-08 18:48:19,197 ] 64 root INFO - [\u2714] Daily data for IBM saved to artifact\data.csv
-[ 2025-04-08 18:48:19,199 ] 77 root INFO - Train-test split initiated
-[ 2025-04-08 18:48:19,235 ] 83 root INFO - Ingestion of the data is completed
